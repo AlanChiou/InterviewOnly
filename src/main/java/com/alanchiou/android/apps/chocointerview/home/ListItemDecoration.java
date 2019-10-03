@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView.ItemDecoration;
 import androidx.recyclerview.widget.RecyclerView.State;
 import com.alanchiou.android.apps.chocointerview.R;
 
-public final class ListItemDecoration extends ItemDecoration {
+final class ListItemDecoration extends ItemDecoration {
 
   private final int horizontalGap;
   private final int verticalGap;

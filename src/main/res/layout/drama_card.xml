@@ -1,50 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
-  style="@style/CardView.Light"
-  android:layout_width="match_parent"
-  android:layout_height="wrap_content"
-  android:clickable="true"
-  android:foreground="?attr/selectableItemBackgroundBorderless"
-  android:orientation="vertical"
-  app:cardCornerRadius="8dp">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-  <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    <data>
 
-    <androidx.appcompat.widget.AppCompatImageView
-      android:id="@+id/thumb"
-      android:layout_width="170dp"
-      android:layout_height="wrap_content"
-      android:scaleType="centerInside" />
+        <variable
+            name="drama"
+            type="com.alanchiou.android.apps.chocointerview.data.Drama" />
+    </data>
 
-    <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:padding="@dimen/content_margin"
-      android:orientation="vertical">
-
-      <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/name"
-        style="@style/TextAppearance.AppCompat.Title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-      <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/rating"
-        style="@style/TextAppearance.AppCompat.Caption"
+    <androidx.cardview.widget.CardView
+        style="@style/CardView.Light"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/content_margin" />
+        android:clickable="true"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:orientation="vertical"
+        app:cardCornerRadius="8dp">
 
-      <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/created_at"
-        style="@style/TextAppearance.AppCompat.Caption"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/content_margin" />
-    </LinearLayout>
-  </LinearLayout>
-</androidx.cardview.widget.CardView>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/thumb"
+                android:layout_width="170dp"
+                android:layout_height="wrap_content"
+                android:scaleType="centerInside"
+                app:imageUrl="@{drama.thumbUrl}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/name"
+                style="@style/TextAppearance.AppCompat.Title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/content_margin"
+                android:layout_marginTop="@dimen/content_margin"
+                android:text="@{drama.name}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/thumb"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatRatingBar
+                android:id="@+id/rating_bar"
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/content_margin"
+                android:layout_marginTop="@dimen/content_margin"
+                android:numStars="5"
+                android:rating="@{drama.rating}"
+                app:layout_constraintStart_toEndOf="@id/thumb"
+                app:layout_constraintTop_toBottomOf="@id/name" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/rating"
+                style="@style/TextAppearance.AppCompat.Caption"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/content_margin"
+                android:text="@{String.valueOf(drama.rating)}"
+                app:layout_constraintBottom_toBottomOf="@id/rating_bar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/rating_bar"
+                app:layout_constraintTop_toTopOf="@id/rating_bar" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/created_at"
+                style="@style/TextAppearance.AppCompat.Caption"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/content_margin"
+                android:text="@{drama.createdAt.toString()}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/thumb"
+                app:layout_constraintTop_toBottomOf="@id/rating_bar" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

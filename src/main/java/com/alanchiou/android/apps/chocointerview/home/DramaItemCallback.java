@@ -10,23 +10,23 @@ final class DramaItemCallback extends DiffUtil.ItemCallback<Drama> {
 
   @Override
   public boolean areItemsTheSame(Drama oldDrama, Drama newDrama) {
-    return oldDrama.getId() == newDrama.getId();
+    return oldDrama.id == newDrama.id;
   }
 
   @Override
   public boolean areContentsTheSame(Drama oldDrama, Drama newDrama) {
-    if (!TextUtils.equals(oldDrama.getName(), newDrama.getName())) {
+    if (!TextUtils.equals(oldDrama.name, newDrama.name)) {
       return false;
     }
-    if (oldDrama.getTotalViews() != newDrama.getTotalViews()) {
+    if (oldDrama.totalViews != newDrama.totalViews) {
       return false;
     }
-    if (!oldDrama.getCreatedAt().equals(newDrama.getCreatedAt())) {
+    if (!oldDrama.createdAt.equals(newDrama.createdAt)) {
       return false;
     }
-    if (!TextUtils.equals(oldDrama.getThumbUrl(), newDrama.getThumbUrl())) {
+    if (!TextUtils.equals(oldDrama.thumbUrl, newDrama.thumbUrl)) {
       return false;
     }
-    return oldDrama.getRating() == newDrama.getRating();
+    return oldDrama.rating == newDrama.rating;
   }
 }

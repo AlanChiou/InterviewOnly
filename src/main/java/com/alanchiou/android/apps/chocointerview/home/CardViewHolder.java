@@ -1,35 +1,34 @@
 package com.alanchiou.android.apps.chocointerview.home;
 
-import android.view.View;
+import android.content.Context;
 import android.widget.ImageView;
-import android.widget.TextView;
+
+import androidx.databinding.BindingAdapter;
 import androidx.recyclerview.widget.RecyclerView;
-import com.alanchiou.android.apps.chocointerview.R;
+
 import com.alanchiou.android.apps.chocointerview.data.Drama;
+import com.alanchiou.android.apps.chocointerview.databinding.DramaCardBinding;
 import com.bumptech.glide.Glide;
 
-final class CardViewHolder extends RecyclerView.ViewHolder {
+public final class CardViewHolder extends RecyclerView.ViewHolder {
 
-  private final ImageView thumbImageViewView;
-  private final TextView nameTextView;
-  private final TextView ratingTextView;
-  private final TextView createdAtTextView;
+    private final DramaCardBinding binding;
 
-  CardViewHolder(View itemView) {
-    super(itemView);
-    thumbImageViewView = itemView.findViewById(R.id.thumb);
-    nameTextView = itemView.findViewById(R.id.name);
-    ratingTextView = itemView.findViewById(R.id.rating);
-    createdAtTextView = itemView.findViewById(R.id.created_at);
-  }
+    @BindingAdapter("bind:imageUrl")
+    public static void bindImage(ImageView imageView, String url) {
+        Context context = imageView.getContext();
+        Glide.with(context)
+                .load(url)
+                .into(imageView);
+    }
 
-  void setupDrama(Drama drama) {
-    nameTextView.setText(drama.getName());
-    ratingTextView.setText(String.valueOf(drama.getRating()));
-    createdAtTextView.setText(drama.getCreatedAt().toString());
-    Glide
-        .with(itemView)
-        .load(drama.thumbUrl)
-        .into(thumbImageViewView);
-  }
+    CardViewHolder(DramaCardBinding binding) {
+        super(binding.getRoot());
+        this.binding = binding;
+    }
+
+    void bind(Drama drama) {
+        binding.setDrama(drama);
+        binding.executePendingBindings();
+    }
 }

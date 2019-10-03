@@ -7,7 +7,7 @@ import com.alanchiou.android.apps.chocointerview.data.Drama;
 import com.alanchiou.android.apps.chocointerview.data.Repository;
 import java.util.List;
 
-public class ListViewModel extends AndroidViewModel {
+public final class ListViewModel extends AndroidViewModel {
 
   private final Repository repository;
 
@@ -16,7 +16,7 @@ public class ListViewModel extends AndroidViewModel {
     repository = Repository.getInstance(application);
   }
 
-  LiveData<List<Drama>> getDramasLiveData() {
+  public LiveData<List<Drama>> getDramasLiveData() {
     return repository.queryDramas();
   }
 }
