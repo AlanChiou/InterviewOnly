@@ -43,6 +43,13 @@ public final class Repository {
     }
 
     /**
+     * Returns the {@link LiveData} of all dramas in {@link AppDatabase} by a specific keyword.
+     */
+    public LiveData<List<Drama>> queryDramasByKeyword(String keyword) {
+        return database.dramaDao().loadDramasByKeyword(keyword);
+    }
+
+    /**
      * Inserts or updates a list of {@link Drama} into {@link AppDatabase}.
      */
     public void insertOrUpdateDramas(List<Drama> dramas) {

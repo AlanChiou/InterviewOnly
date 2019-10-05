@@ -2,9 +2,12 @@ package com.alanchiou.android.apps.chocointerview.home;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
@@ -22,6 +25,8 @@ import java.util.List;
 
 public class ListActivity extends AppCompatActivity implements DramaAdapter.OnDramaClickListener {
 
+    private ListViewModel listViewModel;
+
     @BindingAdapter("dramas")
     public static void updateDramas(RecyclerView recyclerView, List<Drama> dramas) {
         if (recyclerView.getAdapter() instanceof DramaAdapter) {
@@ -33,8 +38,7 @@ public class ListActivity extends AppCompatActivity implements DramaAdapter.OnDr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ListViewModel listViewModel =
-                ViewModelProviders.of(/* activity= */this).get(ListViewModel.class);
+        listViewModel = ViewModelProviders.of(/* activity= */this).get(ListViewModel.class);
         ActivityListBinding binding = DataBindingUtil.setContentView(/* activity= */this,
                 R.layout.activity_list);
         binding.setLifecycleOwner(this);
@@ -58,5 +62,35 @@ public class ListActivity extends AppCompatActivity implements DramaAdapter.OnDr
                         view.findViewById(R.id.thumb),
                         "thumb");
         startActivity(intent, options.toBundle());
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_list, menu);
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView =
+                (SearchView) searchItem.getActionView();
+        searchView.setOnCloseListener(() -> {
+            listViewModel.onSearchClosed();
+
+            return false;
+        });
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                listViewModel.search(query);
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                listViewModel.search(newText);
+
+                return false;
+            }
+        });
+
+        return super.onCreateOptionsMenu(menu);
     }
 }

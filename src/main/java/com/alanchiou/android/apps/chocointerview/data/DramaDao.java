@@ -20,4 +20,6 @@ public interface DramaDao {
     @Query("SELECT * FROM dramas WHERE id = :id LIMIT 1")
     LiveData<Drama> loadDrama(int id);
 
+    @Query("SELECT * FROM dramas WHERE name LIKE '%' || :keyword || '%'")
+    LiveData<List<Drama>> loadDramasByKeyword(String keyword);
 }

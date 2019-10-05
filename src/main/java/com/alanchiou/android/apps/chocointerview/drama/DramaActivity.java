@@ -40,9 +40,9 @@ public class DramaActivity extends AppCompatActivity {
         ActivityDramaBinding binding = DataBindingUtil.setContentView(/* activity= */ this,
                 R.layout.activity_drama);
         DramaViewModel dramaViewModel = ViewModelProviders.of(/* activity= */this).get(DramaViewModel.class);
-        binding.setLifecycleOwner(this);
         binding.setImageLoadedListener(imageLoadedListener);
         binding.setDrama(dramaViewModel.getDramaLiveData(id));
+        binding.setLifecycleOwner(this);
         dramaViewModel.getDramaLiveData(id).observe(this, drama -> setTitle(drama.name));
 
         postponeEnterTransition();
@@ -64,10 +64,5 @@ public class DramaActivity extends AppCompatActivity {
         }
 
         return intent.getIntExtra(EXTRA_ID, /* defaultValue= */-1);
-    }
-
-    @Override
-    public void onBackPressed() {
-        finishAfterTransition();
     }
 }
