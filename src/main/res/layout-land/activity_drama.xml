@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="drama"
+            type="androidx.lifecycle.LiveData&lt;com.alanchiou.android.apps.chocointerview.data.Drama&gt;" />
+
+        <variable
+            name="imageLoadedListener"
+            type="com.alanchiou.android.apps.chocointerview.drama.DramaActivity.OnImageLoadedListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/thumb"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:adjustViewBounds="true"
+            android:transitionName="thumb"
+            app:imageLoadedListener="@{imageLoadedListener}"
+            app:imageUrl="@{drama.thumbUrl}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/name"
+            style="@style/TextAppearance.AppCompat.Title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/content_margin"
+            android:layout_marginTop="@dimen/content_margin"
+            android:text="@{drama.name}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/thumb"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatRatingBar
+            android:id="@+id/rating_bar"
+            style="@style/Widget.AppCompat.RatingBar.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/content_margin"
+            android:layout_marginTop="@dimen/content_margin"
+            android:numStars="5"
+            android:rating="@{drama.rating}"
+            app:layout_constraintStart_toEndOf="@+id/thumb"
+            app:layout_constraintTop_toBottomOf="@id/name" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/rating"
+            style="@style/TextAppearance.AppCompat.Caption"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/content_margin"
+            android:text="@{String.valueOf(drama.rating)}"
+            app:layout_constraintBottom_toBottomOf="@id/rating_bar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/rating_bar"
+            app:layout_constraintTop_toTopOf="@id/rating_bar" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/created_at"
+            style="@style/TextAppearance.AppCompat.Caption"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/content_margin"
+            android:text="@{drama.createdAt.toString()}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/thumb"
+            app:layout_constraintTop_toBottomOf="@id/rating_bar" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/total_views"
+            style="@style/TextAppearance.AppCompat.Caption"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/content_margin"
+            android:text="@{String.valueOf(drama.totalViews)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/thumb"
+            app:layout_constraintTop_toBottomOf="@id/created_at" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

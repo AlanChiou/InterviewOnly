@@ -2,7 +2,12 @@
 <resources>
 
     <style name="AppTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
-        <item name="android:colorAccent">@color/blue_600</item>
-        <item name="colorAccent">@color/blue_600</item>
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowSharedElementEnterTransition">
+            @transition/change_bounds_transform
+        </item>
+        <item name="android:windowSharedElementExitTransition">
+            @transition/change_bounds_transform
+        </item>
     </style>
 </resources>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <dimen name="home_horizontal_gap">16dp</dimen>
-  <dimen name="home_vertical_gap">8dp</dimen>
-  <dimen name="content_margin">8dp</dimen>
+    <dimen name="home_horizontal_gap">16dp</dimen>
+    <dimen name="home_vertical_gap">8dp</dimen>
+    <dimen name="content_margin">8dp</dimen>
 </resources>

@@ -2,6 +2,7 @@ package com.alanchiou.android.apps.chocointerview.home;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.ListAdapter;
@@ -11,13 +12,19 @@ import com.alanchiou.android.apps.chocointerview.data.Drama;
 import com.alanchiou.android.apps.chocointerview.databinding.DramaCardBinding;
 
 
-final class DramaAdapter extends ListAdapter<Drama, CardViewHolder> {
+public final class DramaAdapter extends ListAdapter<Drama, CardViewHolder> {
 
     private final LayoutInflater layoutInflater;
+    private final OnDramaClickListener dramaClickListener;
 
-    DramaAdapter(Context context) {
+    public interface OnDramaClickListener {
+        void onDramaClicked(View view, int id);
+    }
+
+    DramaAdapter(Context context, OnDramaClickListener dramaClickListener) {
         super(new DramaItemCallback());
         layoutInflater = LayoutInflater.from(context);
+        this.dramaClickListener = dramaClickListener;
     }
 
     @Override
@@ -33,6 +40,6 @@ final class DramaAdapter extends ListAdapter<Drama, CardViewHolder> {
 
     @Override
     public void onBindViewHolder(CardViewHolder holder, int position) {
-        holder.bind(getItem(position));
+        holder.bind(getItem(position), dramaClickListener);
     }
 }

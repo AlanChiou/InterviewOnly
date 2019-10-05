@@ -15,6 +15,7 @@ import java.time.Instant;
 public final class Drama {
 
     @PrimaryKey
+    @ColumnInfo(name = "id")
     @SerializedName("drama_id")
     public int id;
 

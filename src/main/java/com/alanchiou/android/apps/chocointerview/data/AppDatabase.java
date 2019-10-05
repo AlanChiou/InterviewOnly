@@ -8,7 +8,7 @@ import androidx.room.TypeConverters;
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
 
-  static final String DB_NAME = "app";
+    static final String DB_NAME = "app";
 
-  public abstract DramaDao dramaDao();
+    public abstract DramaDao dramaDao();
 }

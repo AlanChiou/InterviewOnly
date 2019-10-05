@@ -1,4 +1,4 @@
-package com.alanchiou.android.apps.chocointerview.home;
+package com.alanchiou.android.apps.chocointerview.drama;
 
 import android.app.Application;
 
@@ -8,18 +8,16 @@ import androidx.lifecycle.LiveData;
 import com.alanchiou.android.apps.chocointerview.data.Drama;
 import com.alanchiou.android.apps.chocointerview.data.Repository;
 
-import java.util.List;
-
-public final class ListViewModel extends AndroidViewModel {
+public final class DramaViewModel extends AndroidViewModel {
 
     private final Repository repository;
 
-    public ListViewModel(Application application) {
+    public DramaViewModel(Application application) {
         super(application);
         repository = Repository.getInstance(application);
     }
 
-    public LiveData<List<Drama>> getDramasLiveData() {
-        return repository.queryDramas();
+    public LiveData<Drama> getDramaLiveData(int id) {
+        return repository.queryDrama(id);
     }
 }

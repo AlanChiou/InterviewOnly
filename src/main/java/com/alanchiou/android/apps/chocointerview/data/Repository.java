@@ -35,12 +35,25 @@ public final class Repository {
         database = Room.databaseBuilder(appContext, AppDatabase.class, AppDatabase.DB_NAME).build();
     }
 
+    /**
+     * Returns the {@link LiveData} of all dramas in {@link AppDatabase}.
+     */
     public LiveData<List<Drama>> queryDramas() {
         return database.dramaDao().loadAllDramas();
     }
 
+    /**
+     * Inserts or updates a list of {@link Drama} into {@link AppDatabase}.
+     */
     public void insertOrUpdateDramas(List<Drama> dramas) {
         listeningExecutorService
                 .submit(() -> database.dramaDao().insertDramas(dramas.toArray(new Drama[0])));
+    }
+
+    /**
+     * Returns the {@link LiveData} of a specific drama in {@link AppDatabase} by the specific id.
+     */
+    public LiveData<Drama> queryDrama(int id) {
+        return database.dramaDao().loadDrama(id);
     }
 }

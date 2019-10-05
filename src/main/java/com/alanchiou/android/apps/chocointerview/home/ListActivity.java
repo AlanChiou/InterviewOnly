@@ -1,8 +1,11 @@
 package com.alanchiou.android.apps.chocointerview.home;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
@@ -12,13 +15,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.alanchiou.android.apps.chocointerview.R;
 import com.alanchiou.android.apps.chocointerview.data.Drama;
 import com.alanchiou.android.apps.chocointerview.databinding.ActivityListBinding;
+import com.alanchiou.android.apps.chocointerview.drama.DramaActivity;
 import com.alanchiou.android.apps.chocointerview.http.DownloadJobService;
 
 import java.util.List;
 
-public class ListActivity extends AppCompatActivity {
+public class ListActivity extends AppCompatActivity implements DramaAdapter.OnDramaClickListener {
 
-    @BindingAdapter("bind:dramas")
+    @BindingAdapter("dramas")
     public static void updateDramas(RecyclerView recyclerView, List<Drama> dramas) {
         if (recyclerView.getAdapter() instanceof DramaAdapter) {
             ((DramaAdapter) recyclerView.getAdapter()).submitList(dramas);
@@ -37,11 +41,22 @@ public class ListActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(/* context= */this));
-        DramaAdapter adapter = new DramaAdapter(/* context= */this);
+        DramaAdapter adapter = new DramaAdapter(/* context= */this, /* dramaClickListener= */this);
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new ListItemDecoration(getResources()));
         binding.setDramas(listViewModel.getDramasLiveData());
 
         DownloadJobService.enqueueJob(/* context= */this);
+    }
+
+    @Override
+    public void onDramaClicked(View view, int id) {
+        Intent intent = new Intent(/* packageContext= */this, DramaActivity.class);
+        intent.putExtra(DramaActivity.EXTRA_ID, id);
+        ActivityOptionsCompat options =
+                ActivityOptionsCompat.makeSceneTransitionAnimation(/* activity= */this,
+                        view.findViewById(R.id.thumb),
+                        "thumb");
+        startActivity(intent, options.toBundle());
     }
 }
