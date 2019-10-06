@@ -2,10 +2,13 @@ package com.alanchiou.android.apps.chocointerview.home;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityOptionsCompat;
@@ -26,6 +29,8 @@ import java.util.List;
 public class ListActivity extends AppCompatActivity implements DramaAdapter.OnDramaClickListener {
 
     private ListViewModel listViewModel;
+    @Nullable
+    private AutoClearFocusHelper autoClearFocusHelper;
 
     @BindingAdapter("dramas")
     public static void updateDramas(RecyclerView recyclerView, List<Drama> dramas) {
@@ -68,10 +73,11 @@ public class ListActivity extends AppCompatActivity implements DramaAdapter.OnDr
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_list, menu);
         MenuItem searchItem = menu.findItem(R.id.action_search);
-        SearchView searchView =
-                (SearchView) searchItem.getActionView();
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        autoClearFocusHelper = new AutoClearFocusHelper(searchView);
         searchView.setOnCloseListener(() -> {
             listViewModel.onSearchClosed();
+            invalidateOptionsMenu();
 
             return false;
         });
@@ -90,7 +96,21 @@ public class ListActivity extends AppCompatActivity implements DramaAdapter.OnDr
                 return false;
             }
         });
+        String query = listViewModel.getLastSearch();
+        if (!TextUtils.isEmpty(query)) {
+            searchItem.expandActionView();
+            searchView.setQuery(query, /* submit= */true);
+        }
 
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (autoClearFocusHelper != null) {
+            autoClearFocusHelper.onActivityDispatchTouchEvent(ev);
+        }
+
+        return super.dispatchTouchEvent(ev);
     }
 }

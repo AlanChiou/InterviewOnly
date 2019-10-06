@@ -27,7 +27,7 @@ public final class ListViewModel extends AndroidViewModel {
         super(application);
         repository = Repository.getInstance(application);
         allDramasLiveData = repository.queryDramas();
-
+        queryLiveData.observeForever(repository::setLastSearch);
         dramasLiveData.addSource(repository.queryDramas(), dramas -> mergeDramas(dramas,
                 queryResultLiveData == null ? null : queryResultLiveData.getValue()));
         dramasLiveData.addSource(queryLiveData, query -> mergeDramas(allDramasLiveData.getValue(),
@@ -55,6 +55,11 @@ public final class ListViewModel extends AndroidViewModel {
         queryResultLiveData = repository.queryDramasByKeyword(query);
         dramasLiveData.addSource(queryResultLiveData,
                 queryResult -> mergeDramas(allDramasLiveData.getValue(), queryResult));
+    }
+
+    @Nullable
+    String getLastSearch() {
+        return repository.getLastSearch();
     }
 
     private void mergeDramas(List<Drama> allDramas, @Nullable List<Drama> queryResult) {

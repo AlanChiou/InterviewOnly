@@ -2,9 +2,12 @@ package com.alanchiou.android.apps.chocointerview.data;
 
 import android.content.Context;
 
+import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.room.Room;
 
+import com.alanchiou.android.apps.chocointerview.data.prefs.PreferenceManageImpl;
+import com.alanchiou.android.apps.chocointerview.data.prefs.PreferenceManager;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 
@@ -20,6 +23,7 @@ public final class Repository {
     private final Context appContext;
     private final ListeningExecutorService listeningExecutorService;
     private final AppDatabase database;
+    private final PreferenceManager preferenceManager;
 
     public synchronized static Repository getInstance(Context context) {
         if (instance == null) {
@@ -33,6 +37,7 @@ public final class Repository {
         appContext = context.getApplicationContext();
         listeningExecutorService = MoreExecutors.listeningDecorator(Executors.newCachedThreadPool());
         database = Room.databaseBuilder(appContext, AppDatabase.class, AppDatabase.DB_NAME).build();
+        preferenceManager = new PreferenceManageImpl(appContext);
     }
 
     /**
@@ -62,5 +67,20 @@ public final class Repository {
      */
     public LiveData<Drama> queryDrama(int id) {
         return database.dramaDao().loadDrama(id);
+    }
+
+    /**
+     * Saves the query of the last search if user leaves within a search result.
+     */
+    public void setLastSearch(String query) {
+        preferenceManager.setLastSearch(query);
+    }
+
+    /**
+     * Returns the query of the last search if user leaves within a search result.
+     */
+    @Nullable
+    public String getLastSearch() {
+        return preferenceManager.getLastSearch();
     }
 }
