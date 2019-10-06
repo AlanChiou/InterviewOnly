@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.alanchiou.android.apps.chocointerview.R;
 import com.alanchiou.android.apps.chocointerview.databinding.ActivityDramaBinding;
+import com.alanchiou.android.apps.chocointerview.http.DownloadJobService;
 
 public class DramaActivity extends AppCompatActivity {
 
@@ -43,7 +44,13 @@ public class DramaActivity extends AppCompatActivity {
         binding.setImageLoadedListener(imageLoadedListener);
         binding.setDrama(dramaViewModel.getDramaLiveData(id));
         binding.setLifecycleOwner(this);
-        dramaViewModel.getDramaLiveData(id).observe(this, drama -> setTitle(drama.name));
+        dramaViewModel.getDramaLiveData(id).observe(/* owner= */this, drama -> {
+            if (drama != null) {
+                setTitle(drama.name);
+            } else {
+                DownloadJobService.enqueueJob(/* context= */this);
+            }
+        });
 
         postponeEnterTransition();
     }
