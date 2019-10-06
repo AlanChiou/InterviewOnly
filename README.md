@@ -1,1 +1,1 @@
-# For ChocoInterview only
+# For interview only
